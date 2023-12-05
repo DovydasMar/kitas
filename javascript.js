@@ -4,6 +4,9 @@ console.log("javascript.js file was loaded");
 const baseUrl = "https://robust-safe-crafter.glitch.me/";
 const els = {
   cardContainer: document.getElementById("masterDiv"),
+  vilniausBtn: document.getElementById("vilnius"),
+  kaunoBtn: document.getElementById("kaunas"),
+  klaipBtn: document.getElementById("klaipeda"),
 };
 console.log("els ===", els);
 
@@ -11,6 +14,7 @@ function getAllCards(url) {
   fetch(url)
     .then((resp) => resp.json())
     .then((data) => {
+      els.cardContainer.innerHTML = "";
       data.forEach((postObj) => {
         createItem(postObj);
         return data;
@@ -25,7 +29,9 @@ getAllCards(baseUrl);
 
 function createItem(postObj) {
   const card = document.createElement("div");
+
   card.classList.add("col");
+
   card.innerHTML = `
   <div class="card h-100">
     <img src="${postObj.image}" class="card-img-top" alt="https://picsum.photos/200/300">
@@ -39,4 +45,30 @@ function createItem(postObj) {
   </div>
 `;
   els.cardContainer.append(card);
+}
+
+els.vilniausBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  createItemByCity(els.vilniausBtn.value);
+});
+
+function createItemByCity(miestas) {
+  fetch(baseUrl)
+    .then((resp) => {
+      console.log(resp);
+      return resp.json();
+    })
+    .then((data) => {
+      data.forEach((postObj) => {
+        if (postObj.city === miestas.value) {
+          createItem(postObj);
+        }
+
+        return data;
+      });
+      console.log(data);
+    })
+    .catch((error) => {
+      console.warn("ivyko klaida:", error);
+    });
 }

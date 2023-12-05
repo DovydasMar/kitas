@@ -3,6 +3,7 @@ console.log("javascript.js file was loaded");
 
 const baseUrl = "https://robust-safe-crafter.glitch.me/";
 const els = {
+  allBtn: document.getElementById("allTowns"),
   cardContainer: document.getElementById("masterDiv"),
   vilniausBtn: document.getElementById("vilnius"),
   kaunoBtn: document.getElementById("kaunas"),
@@ -27,6 +28,11 @@ function getAllCards(url) {
 }
 getAllCards(baseUrl);
 
+els.allBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  getAllCards(baseUrl);
+});
+
 function createItem(postObj) {
   const card = document.createElement("div");
 
@@ -47,28 +53,39 @@ function createItem(postObj) {
   els.cardContainer.append(card);
 }
 
-els.vilniausBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  createItemByCity(els.vilniausBtn.value);
-});
-
 function createItemByCity(miestas) {
   fetch(baseUrl)
     .then((resp) => {
-      console.log(resp);
       return resp.json();
     })
     .then((data) => {
+      els.cardContainer.innerHTML = "";
       data.forEach((postObj) => {
-        if (postObj.city === miestas.value) {
+        if (postObj.city === miestas) {
           createItem(postObj);
+          return data;
         }
-
-        return data;
       });
-      console.log(data);
     })
     .catch((error) => {
       console.warn("ivyko klaida:", error);
     });
 }
+
+els.vilniausBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const belekoksMiestas = "Vilnius";
+  createItemByCity(belekoksMiestas);
+});
+
+els.kaunoBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const belekoksMiestas = "Kaunas";
+  createItemByCity(belekoksMiestas);
+});
+
+els.klaipBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const belekoksMiestas = "Klaipeda";
+  createItemByCity(belekoksMiestas);
+});

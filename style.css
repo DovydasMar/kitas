@@ -1,0 +1,18 @@
+.green {
+  background-color: rgb(2 212 177);
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+.container-w80 {
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container-w80 p {
+  font-size: 20px;
+}
+/* .buton-container {
+  display: flex;
+  justify-content: space-between;
+} */
